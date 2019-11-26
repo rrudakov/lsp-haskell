@@ -40,8 +40,8 @@
 (defcustom lsp-haskell-process-path-hie
   ;; "hie"
   "hie-wrapper"
-  "The path for starting the haskell-ide-engine
-server. hie-wrapper exists on HIE master from 2018-06-10"
+  "The path for starting the haskell-ide-engine server.
+hie-wrapper exists on HIE master from 2018-06-10"
   :group 'lsp-haskell
   :type '(choice string))
 
@@ -77,7 +77,7 @@ For example, use the following the start the hie process in a nix-shell:
 ;; HaRe functions
 
 (defun lsp-demote ()
-  "Demote a function to the level it is used"
+  "Demote a function to the level it is used."
   (interactive)
   (lsp--cur-workspace-check)
   (lsp--send-execute-command
@@ -86,7 +86,7 @@ For example, use the following the start the hie process in a nix-shell:
              :pos  ,(lsp-point-to-position (point))))))
 
 (defun lsp-duplicate-definition (newname)
-  "Duplicate a definition"
+  "Duplicate a definition."
   (interactive "sNew definition name: ")
   (lsp--cur-workspace-check)
   (lsp--send-execute-command
@@ -96,7 +96,7 @@ For example, use the following the start the hie process in a nix-shell:
              :text ,newname))))
 
 (defun lsp-if-to-case ()
-  "Convert an if statement to a case statement"
+  "Convert an if statement to a case statement."
   (interactive)
   (lsp--cur-workspace-check)
   (lsp--send-execute-command
@@ -106,7 +106,7 @@ For example, use the following the start the hie process in a nix-shell:
              :end_pos   ,(lsp-get-end-position)))))
 
 (defun lsp-lift-level ()
-  "Lift a function to the top level"
+  "Lift a function to the top level."
   (interactive)
   (lsp--cur-workspace-check)
   (lsp--send-execute-command
@@ -115,7 +115,7 @@ For example, use the following the start the hie process in a nix-shell:
              :pos  ,(lsp-point-to-position (point))))))
 
 (defun lsp-lift-to-top ()
-  "Lift a function to the top level"
+  "Lift a function to the top level."
   (interactive)
   (lsp--cur-workspace-check)
   (lsp--send-execute-command
@@ -124,7 +124,7 @@ For example, use the following the start the hie process in a nix-shell:
              :pos  ,(lsp-point-to-position (point))))))
 
 (defun lsp-delete-definition ()
-  "Delete a definition"
+  "Delete a definition."
   (interactive)
   (lsp--cur-workspace-check)
   (lsp--send-execute-command
@@ -133,7 +133,7 @@ For example, use the following the start the hie process in a nix-shell:
              :pos  ,(lsp-point-to-position (point))))))
 
 (defun lsp-generalise-applicative ()
-  "Generalise a monadic function to use applicative"
+  "Generalise a monadic function to use applicative."
   (interactive)
   (lsp--cur-workspace-check)
   (lsp--send-execute-command
@@ -173,7 +173,7 @@ if projectile way fails"
   "Comamnd and arguments for launching the inferior hie process.
 These are assembled from the customizable variables
  `lsp-haskell-process-path-hie' and
- `lsp-haskell-process-args-hie'. If the hie executable is
+ `lsp-haskell-process-args-hie'.  If the hie executable is
  installed via its Makefile, there will be compiler-specific
  versions with names like 'hie-8.0.2' or 'hie-8.2.2'."
    (append (list lsp-haskell-process-path-hie "--lsp") lsp-haskell-process-args-hie) )
@@ -188,9 +188,11 @@ These are assembled from the customizable variables
      :major-modes '(haskell-mode)
      :server-id 'hie
      ;; :multi-root t
-     :initialization-options 'lsp-haskell--make-init-options)))
+     :initialization-options (lambda ()
+                               (list :languageServerHaskell lsp-haskell--config-options)))))
 
 (defun lsp-haskell--hie-command ()
+  "Build hie command with arguments."
   (funcall lsp-haskell-process-wrapper-function (lsp--haskell-hie-command)))
 
 (cl-defmethod lsp-initialization-options ((_server (eql hie)))
